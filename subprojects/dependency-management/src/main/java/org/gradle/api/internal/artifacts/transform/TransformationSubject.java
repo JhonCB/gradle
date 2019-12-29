@@ -30,10 +30,6 @@ import java.util.Optional;
  */
 public abstract class TransformationSubject implements Describable {
 
-    public static TransformationSubject initial(File file) {
-        return new InitialFileTransformationSubject(file);
-    }
-
     public static TransformationSubject initial(ResolvableArtifact artifact) {
         return new InitialArtifactTransformationSubject(artifact);
     }
@@ -65,61 +61,21 @@ public abstract class TransformationSubject implements Describable {
         return getDisplayName();
     }
 
-    private static abstract class AbstractInitialTransformationSubject extends TransformationSubject {
-        private final File file;
-
-        public AbstractInitialTransformationSubject(File file) {
-            this.file = file;
-        }
-
-        @Override
-        public ImmutableList<File> getFiles() {
-            return ImmutableList.of(file);
-        }
-
-        public File getFile() {
-            return file;
-        }
-    }
-
-    private static class InitialFileTransformationSubject extends AbstractInitialTransformationSubject {
-
-        public InitialFileTransformationSubject(File file) {
-            super(file);
-        }
-
-        @Override
-        public String getDisplayName() {
-            return "file " + getFile();
-        }
-
-        @Override
-        public ImmutableList<ResolvableArtifact> getArtifacts() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public TransformationSubject createSubjectFromResult(ImmutableList<File> result) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public Optional<ProjectComponentIdentifier> getProducer() {
-            return Optional.empty();
-        }
-    }
-
-    private static class InitialArtifactTransformationSubject extends AbstractInitialTransformationSubject {
+    private static class InitialArtifactTransformationSubject extends TransformationSubject {
         private final ResolvableArtifact artifact;
 
         public InitialArtifactTransformationSubject(ResolvableArtifact artifact) {
-            super(artifact.getFile());
             this.artifact = artifact;
         }
 
         @Override
         public String getDisplayName() {
             return "artifact " + artifact.getId().getDisplayName();
+        }
+
+        @Override
+        public ImmutableList<File> getFiles() {
+            return ImmutableList.of(artifact.getFile());
         }
 
         @Override

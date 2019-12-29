@@ -68,8 +68,6 @@ public abstract class TransformationNode extends Node implements SelfExecutingNo
         this.transformListener = transformListener;
     }
 
-    public abstract ResolvableArtifact getInputArtifact();
-
     @Nullable
     @Override
     public Project getOwningProject() {
@@ -173,7 +171,6 @@ public abstract class TransformationNode extends Node implements SelfExecutingNo
             this.transformationNodeRegistry = transformationNodeRegistry;
         }
 
-        @Override
         public ResolvableArtifact getInputArtifact() {
             return artifact;
         }
@@ -213,11 +210,6 @@ public abstract class TransformationNode extends Node implements SelfExecutingNo
             super(transformationStep, dependenciesResolver, buildOperationExecutor, transformListener);
             this.previousTransformationNode = previousTransformationNode;
             this.transformationNodeRegistry = transformationNodeRegistry;
-        }
-
-        @Override
-        public ResolvableArtifact getInputArtifact() {
-            return previousTransformationNode.getInputArtifact();
         }
 
         public TransformationNode getPreviousTransformationNode() {
