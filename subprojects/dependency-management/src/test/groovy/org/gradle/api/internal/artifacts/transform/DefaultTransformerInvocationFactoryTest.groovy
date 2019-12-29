@@ -434,7 +434,7 @@ class DefaultTransformerInvocationFactoryTest extends AbstractProjectBuilderSpec
                 Path.path(":child"),
                 Path.path(":child"),
                 "child"
-            ), file.getName())
+            ), file)
         def artifact = Stub(ResolvableArtifact)
         _ * artifact.file >> file
         _ * artifact.id >> artifactIdentifier
